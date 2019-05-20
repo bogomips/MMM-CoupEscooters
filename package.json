@@ -1,0 +1,30 @@
+{
+  "name": "mmm-coupescooters",
+  "version": "1.0.0",
+  "description": "A module to display the closest Coup scooters in Berlin on the the MagicMirror",
+  "main": "MMM-CoupEscooters.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bogomips/MMM-CoupEscooters.git"
+  },
+  "keywords": [
+    "MagicMirror",
+    "module",
+    "coup",
+    "sooter",
+    "escooter",
+    "berlin"
+  ],
+  "author": "Pierluigi Petrelli",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bogomips/MMM-CoupEscooters/issues"
+  },
+  "homepage": "https://github.com/bogomips/MMM-CoupEscooters#readme",
+  "dependencies": {
+    "lodash": "^4.17.11"
+  }
+}
