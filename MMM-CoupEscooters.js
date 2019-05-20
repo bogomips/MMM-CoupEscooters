@@ -11,9 +11,9 @@ Module.register("MMM-CoupEscooters",{
 
     start: function() {
         
-        this.sendSocketNotification('GET_SCOOTERS', { myPosition: this.config.myPosition ,apiEndpoint: this.config.apiEndpoint });
+        this.sendSocketNotification('GET_SCOOTERS', { myPosition: this.config.myPosition ,cityId: this.config.cityId });
         setInterval(() => {
-            this.sendSocketNotification('GET_SCOOTERS', { myPosition: this.config.myPosition ,apiEndpoint: this.config.apiEndpoint });
+            this.sendSocketNotification('GET_SCOOTERS', { myPosition: this.config.myPosition ,cityId: this.config.cityId });
 		}, this.config.updateInterval * 1000);
         
     },

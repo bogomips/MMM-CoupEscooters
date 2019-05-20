@@ -13,9 +13,10 @@ module.exports = NodeHelper.create({
     socketNotificationReceived: async function(notification, payload) {
 
 		if (notification == 'GET_SCOOTERS') {
-			if ( ('myPosition' in payload) && ('apiEndpoint' in payload) ) {
+			if ( ('myPosition' in payload) && ('cityId' in payload) ) {
 
-				let response = await this.getScooters(payload.apiEndpoint);
+				let apiEndpoint = `https://app.joincoup.com//api/v3/markets/${payload.cityId}/scooters.json`; 
+				let response = await this.getScooters(apiEndpoint);
 				let scooters = response.data.scooters;
 				for (scooter in scooters) {
 					scooters[scooter].distance = this.calc_distance(scooters[scooter].location.lat,scooters[scooter].location.lng,payload.myPosition[0],payload.myPosition[1],"k")*1000;
@@ -25,7 +26,7 @@ module.exports = NodeHelper.create({
 				this.sendSocketNotification('SCOOTERS', ordered_scooter);
 			}
 			else {
-				console.log(`${this.name}: the config file must contain myPosition and apiEndpoint!`);
+				console.log(`${this.name}: the config file must contain myPosition and cityId!`);
 			}
 		}
        
