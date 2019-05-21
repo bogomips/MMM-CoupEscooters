@@ -18,7 +18,7 @@ module.exports = NodeHelper.create({
 				let apiEndpoint = `https://app.joincoup.com//api/v3/markets/${payload.cityId}/scooters.json`; 
 				let response = await this.getScooters(apiEndpoint);
 				let scooters = response.data.scooters;
-				for (scooter in scooters) { //scootersToDisplay AADDDDDDDD
+				for (let scooter in scooters) {
 					scooters[scooter].distance = this.calc_distance(scooters[scooter].location.lat,scooters[scooter].location.lng,payload.myPosition[0],payload.myPosition[1],"k")*1000;
 				}
 				let ordered_scooter = _.sortBy(scooters, [(o) =>  o.distance ]);

@@ -18,9 +18,9 @@ Module.register("MMM-CoupEscooters",{
         this.loaded = false;
         this.batteries = ['battery-empty','battery-quarter','battery-half','battery-three-quarters','battery-full'];
         
-        this.sendSocketNotification('GET_SCOOTERS', { myPosition: this.config.myPosition ,cityId: this.config.cityId });
+        this.sendSocketNotification('GET_SCOOTERS', { myPosition: this.config.myPosition ,cityId: this.config.cityId  });
         setInterval(() => {
-            this.sendSocketNotification('GET_SCOOTERS', { myPosition: this.config.myPosition, cityId: this.config.cityId, scootersToDisplay: this.scootersToDisplay });
+            this.sendSocketNotification('GET_SCOOTERS', { myPosition: this.config.myPosition, cityId: this.config.cityId });
 		}, this.config.updateInterval * 1000);
         
     },
