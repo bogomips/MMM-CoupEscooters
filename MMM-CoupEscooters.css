@@ -1,0 +1,19 @@
+.MMM-CoupEscooters .model {
+    padding-left: 0;
+    padding-right: 25px;
+}
+
+.MMM-CoupEscooters .plate {
+    padding-right: 0px;
+    text-align: center;
+}
+
+.MMM-CoupEscooters .energy {
+    padding-left: 20px;
+    padding-right: 0;
+}
+
+.MMM-CoupEscooters .distance {
+    padding-left: 20px;
+    padding-right: 0;
+}

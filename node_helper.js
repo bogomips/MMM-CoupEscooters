@@ -13,12 +13,12 @@ module.exports = NodeHelper.create({
     socketNotificationReceived: async function(notification, payload) {
 
 		if (notification == 'GET_SCOOTERS') {
-			if ( ('myPosition' in payload) && ('cityId' in payload) ) {
+			if ( (payload.myPosition.length == 2) && ('cityId' in payload) ) {
 
 				let apiEndpoint = `https://app.joincoup.com//api/v3/markets/${payload.cityId}/scooters.json`; 
 				let response = await this.getScooters(apiEndpoint);
 				let scooters = response.data.scooters;
-				for (scooter in scooters) {
+				for (scooter in scooters) { //scootersToDisplay AADDDDDDDD
 					scooters[scooter].distance = this.calc_distance(scooters[scooter].location.lat,scooters[scooter].location.lng,payload.myPosition[0],payload.myPosition[1],"k")*1000;
 				}
 				let ordered_scooter = _.sortBy(scooters, [(o) =>  o.distance ]);
