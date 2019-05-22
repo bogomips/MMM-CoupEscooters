@@ -98,7 +98,7 @@ Module.register("MMM-CoupEscooters",{
             if (scooter.distance <= this.config.highlightWithin)
                 energyCell.style.cssText = `color: ${this.config.highlightColor}`;
 
-            icon.style.cssText = this.getBatteryColor(scooter.energy_level);
+            icon.style.cssText = `color: ${this.getBatteryColor(scooter.energy_level)}`;            
             
             energyCell.appendChild(icon);
             row.appendChild(energyCell);
