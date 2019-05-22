@@ -5,10 +5,12 @@ Module.register("MMM-CoupEscooters",{
 
         myPosition: [],
         cityId: 'fb7aadac-bded-4321-9223-e3c30c5e3ba5',
-        updateInterval: 120,
-        initialLoadDelay: 2500, 
+        updateInterval: 120, //seconds
+        initialAnimationDuration: 2500, 
         scootersToDisplay: 5,
-        highlightColor: '#f06595'
+        highlightWithin: 150, //meters
+        highlightColor: '#f06595',
+        batteryColor: ['#ff0000','#F9D71C','#00ff00'],
         
     },
 
@@ -16,7 +18,7 @@ Module.register("MMM-CoupEscooters",{
 
         this.scooters = [];
         this.loaded = false;
-        this.batteries = ['battery-empty','battery-quarter','battery-half','battery-three-quarters','battery-full'];
+        this.batteries = ['battery-empty','battery-quarter','battery-half','battery-three-quarters','battery-full'];   
         
         this.sendSocketNotification('GET_SCOOTERS', { myPosition: this.config.myPosition ,cityId: this.config.cityId  });
         setInterval(() => {
@@ -65,17 +67,24 @@ Module.register("MMM-CoupEscooters",{
             var row = document.createElement("tr");
             table.appendChild(row);
 
+            //var icon = document.createElement("i");
+            //icon.classList.add("fa", "fa-fw", "fa-motorcycle");
+
+            //var icon = document.createElement("img"); 
+            //icon.src = this.file('scooter.svg');
+            //icon.className='scooter_icon';
             var modelCell = document.createElement("td");
 			modelCell.className = "model";
-            modelCell.innerHTML = scooter.model;
-            if (scooter.distance <= 150)
+            //modelCell.innerHTML = scooter.model;
+            if (scooter.distance <= this.config.highlightWithin)
                 modelCell.style.cssText = `color: ${this.config.highlightColor}`;
+            //modelCell.appendChild(icon);
             row.appendChild(modelCell);
             
             var plateCell = document.createElement("td");
 			plateCell.className = "plate";
             plateCell.innerHTML = scooter.license_plate;
-            if (scooter.distance <= 150)
+            if (scooter.distance <= this.config.highlightWithin)
                 plateCell.style.cssText = `color: ${this.config.highlightColor}`;
             row.appendChild(plateCell);
             
@@ -86,15 +95,10 @@ Module.register("MMM-CoupEscooters",{
 			energyCell.className = "energy";
             energyCell.innerHTML = scooter.energy_level+'&nbsp;';
 
-            if (scooter.distance <= 150)
+            if (scooter.distance <= this.config.highlightWithin)
                 energyCell.style.cssText = `color: ${this.config.highlightColor}`;
 
-            if (scooter.energy_level > 25+12.5)    
-                icon.style.cssText = `color: #00ff00`;
-            else if (scooter.energy_level > 20) 
-                icon.style.cssText = `color: #F9D71C`;
-            else
-                icon.style.cssText = `color: #ff0000`;
+            icon.style.cssText = this.getBatteryColor(scooter.energy_level);
             
             energyCell.appendChild(icon);
             row.appendChild(energyCell);
@@ -103,7 +107,7 @@ Module.register("MMM-CoupEscooters",{
 			distanceCell.className = "distance";
             distanceCell.innerHTML = Math.round(scooter.distance)+"m";
           
-            if (scooter.distance <= 150)
+            if (scooter.distance <= this.config.highlightWithin)
                 distanceCell.style.cssText = `color: ${this.config.highlightColor}`;
 			row.appendChild(distanceCell);
         }
@@ -111,9 +115,24 @@ Module.register("MMM-CoupEscooters",{
 		return table;
     },
 
+    getBatteryColor: function(percentage) {
+
+        let value;
+
+        if (percentage > 37.5)    
+            value = 2;
+        else if (percentage > 20) 
+            value = 1;
+        else
+            value = 0;
+
+        return this.config.batteryColor[value];
+    },
+
     getBatteryIcon: function(percentage) {
 
         const _val=12.5;
+        let value;
            
         if (percentage  > 100-_val) 
             value = 4;
@@ -135,7 +154,7 @@ Module.register("MMM-CoupEscooters",{
         if (notification == 'SCOOTERS') {
             this.loaded = true;
             this.scooters = payload;
-            this.updateDom(this.config.initialLoadDelay);
+            this.updateDom(this.config.initialAnimationDuration);
         }
     },
 
